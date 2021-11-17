@@ -12,7 +12,6 @@ def upload(): #AQUI SE SUBE LA IMAGEN
     panel.image = img
     panel.pack()
     panel.place(x=400, y=50)
-    processImg()
 
 def processImg(): #AQUI SE LLAMA AL MODELO PARA ANALIZAR LA IMAGEN
     covidPositive = False
@@ -45,7 +44,7 @@ uploadButton.config(bg="#c0c0c0", font=("Arial", 9))
 uploadButton.place(x=25, y=50)
 
 
-processButton = tk.Button(mainWindow, text ="Procesar", height = 2, width = 20)
+processButton = tk.Button(mainWindow, text ="Procesar", height = 2, width = 20, command= processImg)
 processButton.pack(anchor=tk.NW)
 processButton.config(bg="#c0c0c0", font=("Arial", 9))
 processButton.place(x=200, y=50)
