@@ -1,4 +1,3 @@
-import io
 from torch import load
 import torch
 import torch.nn as nn
@@ -7,7 +6,6 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision import transforms
 from torchvision.io import read_image
 import numpy as np
-from PIL import Image
 
 import matplotlib.pyplot as plt
 
@@ -78,6 +76,7 @@ class TorchEngine():
         print(bb_hat)
         for box in bb_hat:
             show_corner_bb(img_t.squeeze(0), box)
-        plt.show()
 
-        return img, False
+        has_covid = len(bb_hat) is not 0
+
+        return img, has_covid

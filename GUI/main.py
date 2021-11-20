@@ -3,6 +3,7 @@ from PIL import ImageTk, Image  # pip3 install Pillow
 from tkinter import filedialog
 
 import engine.torch as tengine
+import matplotlib.pyplot as plt
 
 
 def upload():  # AQUI SE SUBE LA IMAGEN
@@ -10,9 +11,8 @@ def upload():  # AQUI SE SUBE LA IMAGEN
     img = Image.open(filename)
     ph = ImageTk.PhotoImage(img)
     print(filename)
-    # do prediction here
-    # ...
-    img, has_covid = trunner.predict(img, filename)
+    global current_image_path
+    current_image_path = filename
 
     tk_img = img.resize((256, 256), Image.ANTIALIAS)
     tk_img = ImageTk.PhotoImage(tk_img)
@@ -23,11 +23,17 @@ def upload():  # AQUI SE SUBE LA IMAGEN
 
 
 def process_img():  # AQUI SE LLAMA AL MODELO PARA ANALIZAR LA IMAGEN
-    covidPositive = False
+    global current_image_path
+
+    img = Image.open(current_image_path)
+
+    img, covidPositive = trunner.predict(img, current_image_path)
+
     textResult = "El individuo no presenta COVID-19"
 
     if covidPositive:
         textResult = "El individuo si presenta COVID-19"
+    plt.show()
 
     result = tk.Label(mainWindow, text=textResult)
     result.pack(anchor=tk.NW)
@@ -55,5 +61,7 @@ processButton = tk.Button(mainWindow, text="Procesar", height=2, width=20, comma
 processButton.pack(anchor=tk.NW)
 processButton.config(bg="#c0c0c0", font=("Arial", 9))
 processButton.place(x=200, y=50)
+
+current_image_path = None
 
 mainWindow.mainloop()
